@@ -15,5 +15,19 @@ cc_library {
         "libutils",
     ],
     header_libs: ["libdisplaycolor_interface"],
-    cflags: ["-Werror"],
+    cflags: ["-Werror", "-DLOG_TAG=\"libdisplaycolor\"",],
+}
+
+cc_library {
+    name: "libdisplaycolor_test",
+    proprietary: true,
+    srcs: ["libdisplaycolor_test.cpp"],
+    shared_libs: [
+        "liblog",
+        "libutils",
+        "libcutils",
+        "libdisplaycolor_default",
+    ],
+    header_libs: ["libdisplaycolor_interface"],
+    cflags: ["-Wno-unused-function"],
 }
