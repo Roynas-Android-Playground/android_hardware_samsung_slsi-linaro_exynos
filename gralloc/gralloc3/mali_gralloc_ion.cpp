@@ -717,7 +717,17 @@ static int allocate_to_fds(buffer_descriptor_t *bufDescriptor, enum mem_type hea
 			goto err;
 		}
 
-		fd_arr[idx] = alloc_from_ion_heap(usage, VIDEO_PRIV_DATA_SIZE, TYPE_SYSTEM, 0, min_pgsz);
+		/*
+		 * Video private metadata is CPU bookkeeping, not protected frame
+		 * payload. Reusing the parent buffer usage here makes
+		 * select_heap_mask() choose the video-frame heap for protected
+		 * decoder output, while the intentionally unprotected flags select
+		 * its "-uncached" variant. Keep metadata on the system heap.
+		 */
+		fd_arr[idx] = alloc_from_ion_heap(
+				GRALLOC1_USAGE_READ_OFTEN |
+				GRALLOC1_USAGE_WRITE_OFTEN,
+				VIDEO_PRIV_DATA_SIZE, TYPE_SYSTEM, 0, min_pgsz);
 		if (fd_arr[idx] < 0)
 		{
 			AERR("ion_alloc failed from client ( %d )", ion_client);
