@@ -1,6 +1,7 @@
 cc_library_shared {
 
     name: "libTeeServiceJni",
+    //certificate: "platform",
 
     srcs: [
         "jni/native-lib-jni.cpp",
@@ -12,10 +13,8 @@ cc_library_shared {
         "hardware/samsung_slsi-linaro/exynos/tee/kinibi500/vendor/hardware/interfaces/tee/1.1/default",
     ],
 
-    cflags: [
-        "-UNDEBUG", // Undefine NDEBUG to enable LOG_D in log
-        "-DLOG_ANDROID", // Enable logging to logcat per default
-    ],
+    // Undefine NDEBUG to enable LOG_D in log
+    cflags: ["-UNDEBUG"] + ["-DLOG_ANDROID"], // Enable logging to logcat per default
 
     shared_libs: [
         "liblog",
@@ -46,10 +45,8 @@ android_app {
     },
     srcs: ["java/**/*.java"],
     jni_libs: ["libTeeServiceJni"],
-    static_libs: [
-        "android.hidl.base-V1.0-java",
-        "vendor.trustonic.tee.tui-V1.0-java",
-    ],
+    static_libs: ["android.hidl.base-V1.0-java"] + ["vendor.trustonic.tee.tui-V1.0-java"],
+    // Add your source files here (relative paths)
     privileged: true,
     certificate: "platform",
     dex_preopt: {

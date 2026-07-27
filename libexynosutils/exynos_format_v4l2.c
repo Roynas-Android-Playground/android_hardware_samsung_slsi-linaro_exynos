@@ -41,8 +41,8 @@
 #include "exynos_format.h"
 #include "s5p_fimc_v4l2.h"
 #include <utils/Log.h>
-#include <linux/videodev2.h>
-#include <linux/videodev2_exynos_media.h>
+#include "videodev2.h"
+#include "videodev2_exynos_media.h"
 
 int HAL_PIXEL_FORMAT_2_V4L2_PIX(
     int hal_pixel_format)
@@ -180,10 +180,6 @@ int HAL_PIXEL_FORMAT_2_V4L2_PIX(
 
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M_10B_SBWC_L40:
         v4l2_pixel_format = V4L2_PIX_FMT_NV12M_SBWCL_10B;
-        break;
-
-    case HAL_PIXEL_FORMAT_EXYNOS_GREY:
-        v4l2_pixel_format = V4L2_PIX_FMT_GREY;
         break;
 
     default:
@@ -324,10 +320,6 @@ int V4L2_PIX_2_HAL_PIXEL_FORMAT(
 
     case V4L2_PIX_FMT_NV12M_SBWCL_10B:
         hal_pixel_format = HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M_10B_SBWC_L40;
-        break;
-
-    case V4L2_PIX_FMT_GREY:
-        hal_pixel_format = HAL_PIXEL_FORMAT_EXYNOS_GREY;
         break;
 
     default:

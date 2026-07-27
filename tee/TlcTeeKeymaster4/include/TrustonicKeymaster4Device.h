@@ -34,40 +34,26 @@
 
 #include "TrustonicKeymaster4DeviceImpl.h"
 
-#if KEYMASTER_WANTED_VERSION == 4
 #include <android/hardware/keymaster/4.0/IKeymasterDevice.h>
-#else
-#include <android/hardware/keymaster/3.0/IKeymasterDevice.h>
-#endif
 #include <hidl/Status.h>
-
-#if KEYMASTER_WANTED_VERSION == 4
-#define HIDL_VER V4_0
-#else
-#define HIDL_VER V3_0
-#endif
 
 #include <hidl/MQDescriptor.h>
 namespace android {
 namespace hardware {
 namespace keymaster {
-namespace HIDL_VER {
+namespace V4_0 {
 namespace implementation {
 
-using ::android::hardware::keymaster::HIDL_VER::ErrorCode;
-using ::android::hardware::keymaster::HIDL_VER::HardwareAuthToken;
-#if KEYMASTER_WANTED_VERSION == 4
-using ::android::hardware::keymaster::HIDL_VER::HmacSharingParameters;
-#endif
-using ::android::hardware::keymaster::HIDL_VER::IKeymasterDevice;
-using ::android::hardware::keymaster::HIDL_VER::KeyCharacteristics;
-using ::android::hardware::keymaster::HIDL_VER::KeyFormat;
-using ::android::hardware::keymaster::HIDL_VER::KeyParameter;
-using ::android::hardware::keymaster::HIDL_VER::KeyPurpose;
-using ::android::hardware::keymaster::HIDL_VER::SecurityLevel;
-#if KEYMASTER_WANTED_VERSION == 4
-using ::android::hardware::keymaster::HIDL_VER::VerificationToken;
-#endif
+using ::android::hardware::keymaster::V4_0::ErrorCode;
+using ::android::hardware::keymaster::V4_0::HardwareAuthToken;
+using ::android::hardware::keymaster::V4_0::HmacSharingParameters;
+using ::android::hardware::keymaster::V4_0::IKeymasterDevice;
+using ::android::hardware::keymaster::V4_0::KeyCharacteristics;
+using ::android::hardware::keymaster::V4_0::KeyFormat;
+using ::android::hardware::keymaster::V4_0::KeyParameter;
+using ::android::hardware::keymaster::V4_0::KeyPurpose;
+using ::android::hardware::keymaster::V4_0::SecurityLevel;
+using ::android::hardware::keymaster::V4_0::VerificationToken;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
 using ::android::hardware::hidl_vec;
@@ -81,7 +67,6 @@ class TrustonicKeymaster4Device : public IKeymasterDevice {
     virtual ~TrustonicKeymaster4Device();
 
     // Methods from ::android::hardware::keymaster::V4_0::IKeymasterDevice follow.
-#if KEYMASTER_WANTED_VERSION == 4
     Return<void> getHardwareInfo(
         getHardwareInfo_cb _hidl_cb);
     Return<void> getHmacSharingParameters(
@@ -94,10 +79,6 @@ class TrustonicKeymaster4Device : public IKeymasterDevice {
         const hidl_vec<KeyParameter>& parametersToVerify,
         const HardwareAuthToken& authToken,
         verifyAuthorization_cb _hidl_cb);
-#else
-    Return<void> getHardwareFeatures(
-        getHardwareFeatures_cb _hidl_cb);
-#endif
     Return<ErrorCode> addRngEntropy(
         const hidl_vec<uint8_t>& data);
     Return<void> generateKey(
@@ -108,7 +89,6 @@ class TrustonicKeymaster4Device : public IKeymasterDevice {
         KeyFormat keyFormat,
         const hidl_vec<uint8_t>& keyData,
         importKey_cb _hidl_cb);
-#if KEYMASTER_WANTED_VERSION == 4
     Return<void> importWrappedKey(
         const hidl_vec<uint8_t>& wrappedKeyData,
         const hidl_vec<uint8_t>& wrappingKeyBlob,
@@ -117,7 +97,6 @@ class TrustonicKeymaster4Device : public IKeymasterDevice {
         uint64_t passwordSid,
         uint64_t biometricSid,
         importWrappedKey_cb _hidl_cb);
-#endif
     Return<void> getKeyCharacteristics(
         const hidl_vec<uint8_t>& keyBlob,
         const hidl_vec<uint8_t>& clientId,
@@ -145,28 +124,22 @@ class TrustonicKeymaster4Device : public IKeymasterDevice {
         KeyPurpose purpose,
         const hidl_vec<uint8_t>& keyBlob,
         const hidl_vec<KeyParameter>& inParams,
-#if KEYMASTER_WANTED_VERSION == 4
         const HardwareAuthToken& authToken,
-#endif
         begin_cb _hidl_cb);
     Return<void> update(
         uint64_t operationHandle,
         const hidl_vec<KeyParameter>& inParams,
         const hidl_vec<uint8_t>& input,
-#if KEYMASTER_WANTED_VERSION == 4
         const HardwareAuthToken& authToken,
         const VerificationToken& verificationToken,
-#endif
         update_cb _hidl_cb);
     Return<void> finish(
         uint64_t operationHandle,
         const hidl_vec<KeyParameter>& inParams,
         const hidl_vec<uint8_t>& input,
         const hidl_vec<uint8_t>& signature,
-#if KEYMASTER_WANTED_VERSION == 4
         const HardwareAuthToken& authToken,
         const VerificationToken& verificationToken,
-#endif
         finish_cb _hidl_cb);
     Return<ErrorCode> abort(
         uint64_t operationHandle);

@@ -1,7 +1,0 @@
-soong_namespace {
-}
-
-subdirs = [
-    "system/*",
-    "vendor/*",
-]
