@@ -16,6 +16,11 @@
 
 cc_binary {
     name: "strongbox_km_test",
+
+    // Use the platform VTS for current HAL coverage. This legacy copy is not
+    // installed by Exynos7885 products and mixes incompatible AIDL versions.
+    enabled: false,
+
     defaults: [
         "VtsHalTargetTestDefaults",
         "use_libaidlvintf_gtest_helper_static"
